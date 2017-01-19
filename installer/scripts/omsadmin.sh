@@ -323,12 +323,39 @@ set_proxy_setting()
     fi
 }
 
+onboard_scom()
+{
+    echo "Onboarding SCOM"
+    create_workspace_directories "scom"
+    touch $CONF_DIR/omsagent.conf
+    update_path $CONF_DIR/omsagent.conf
+    chown_omsagent $CONF_DIR/*
+    make_dir $CONF_DIR/omsagent.d
+    #Always register SCOM as secondary Workspace
+    echo "SCOM Workspace" > $CONF_DIR/.multihoming_marker
+    configure_logrotate
+
+    # The scx certificate and key needs to be owned by omsagent so that it is readable and can be used during SCOM authentication
+    if [ -f /etc/opt/microsoft/scx/ssl/scx.pem ]; then
+       chown_omsagent /etc/opt/microsoft/scx/ssl/scx.pem
+    fi
+
+    if [ -f /etc/opt/omi/ssl/omikey.pem ]; then
+       chown_omsagent /etc/opt/omi/ssl/omikey.pem
+    fi
+}
+
 onboard()
 {
     if [ $VERBOSE -eq 1 ]; then
         echo "Workspace ID:      $WORKSPACE_ID"
         echo "Shared key:        $SHARED_KEY"
         echo "Top Level Domain:  $URL_TLD"
+    fi
+
+    if [ "$WORKSPACE_ID" = "scom" ]; then
+        onboard_scom
+        clean_exit $?
     fi
 
     local error=0
