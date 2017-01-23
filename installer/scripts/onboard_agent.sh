@@ -9,6 +9,7 @@
 GITHUB_RELEASE="https://github.com/Microsoft/OMS-Agent-for-Linux/releases/download/OMSAgent-201610-v1.2.0-148/"
 BUNDLE_X64="omsagent-1.2.0-148.universal.x64.sh"
 BUNDLE_X86="omsagent-1.2.0-148.universal.x86.sh"
+SHORT_NAME="omsagent.sh"
 
 usage()
 {
@@ -72,9 +73,9 @@ fi
 # Download, install, and onboard OMSAgent for Linux, depending on architecture of machine
 if [ $(uname -m) = 'x86_64' ]; then
     # x64 architecture
-    wget ${GITHUB_RELEASE}${BUNDLE_X64} && sudo sh ./${BUNDLE_X64} ${bundleParameters}
+    wget -O ${SHORT_NAME} ${GITHUB_RELEASE}${BUNDLE_X64} && sudo sh ./${SHORT_NAME} ${bundleParameters}
 else
     # x86 architecture
-    wget ${GITHUB_RELEASE}${BUNDLE_X86} && sudo sh ./${BUNDLE_X86} ${bundleParameters}
+    wget -O ${SHORT_NAME} ${GITHUB_RELEASE}${BUNDLE_X86} && sudo sh ./${SHORT_NAME} ${bundleParameters}
 fi
 
