@@ -30,6 +30,7 @@ CONF_OMSAGENT=$CONF_DIR/omsagent.conf
 
 # Omsagent proxy configuration
 CONF_PROXY=$ETC_DIR/proxy.conf
+OLD_PROXY_CONF=/etc/opt/microsoft/omsagent/conf/proxy.conf
 
 # File with OS information for telemetry
 OS_INFO=/etc/opt/microsoft/scx/conf/scx-release
